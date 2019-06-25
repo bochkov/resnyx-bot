@@ -19,10 +19,10 @@ public class RestHandle {
 
     @PostMapping("/{token}")
     public void incoming(@PathVariable String token, @RequestBody Update payload) {
+        LOG.info(payload.toString());
         final Long chatId = payload.getMessage().getChat().getId();
         final String text = payload.getMessage().getText();
-        if (text.startsWith("@resnyx") || text.startsWith("/")) {
-            LOG.info(payload.toString());
+        if (text != null && (text.startsWith("@resnyx") || text.startsWith("/"))) {
             THREAD_POOL.submit(() -> {
                 try {
                     new SendMessage(
