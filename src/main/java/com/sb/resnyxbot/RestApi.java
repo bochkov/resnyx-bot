@@ -12,12 +12,12 @@ import resnyx.TgMethod;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/api/tg")
+@RequestMapping("/api")
 public class RestApi {
 
     private static final Logger LOG = LoggerFactory.getLogger(RestApi.class);
 
-    @PostMapping
+    @PostMapping("/tg")
     public <T> Answer<T> message(@RequestBody TgMethod<T> method) throws IOException {
         LOG.info("received msg {}", method);
         Answer<T> res = method.execute();

@@ -11,4 +11,4 @@ WORKDIR /opt
 ADD build/libs/resnyx-bot-1.0-SNAPSHOT.jar /opt/resnyx-bot.jar
 EXPOSE 8080
 ENTRYPOINT ["/usr/local/bin/dumb-init", "--"]
-CMD ["sh", "-c", "java $JAVA_OPTS -Dfile.encoding=UTF-8 -jar resnyx-bot.jar"]
+CMD ["sh", "-c", "java $JAVA_OPTS -Dfile.encoding=UTF-8 -jar resnyx-bot.jar --host=mongo"]
