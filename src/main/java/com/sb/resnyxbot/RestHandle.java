@@ -21,21 +21,21 @@ public final class RestHandle {
 
     @PostMapping("/{token}")
     public void incoming(@PathVariable String token, @RequestBody Update payload) {
-        THREAD_POOL.submit(() -> {
+        final Long chatId = payload.getMessage().getChat().getId();
+        final String text = payload.getMessage().getText();
+        if (text.startsWith("@resnyx") || text.startsWith("/")) {
             LOG.info(payload.toString());
-            Long chatId = payload.getMessage().getChat().getId();
-            String text = payload.getMessage().getText();
-            if (text.startsWith("@resnyx")) {
-                SendMessage msg = new SendMessage();
-                msg.setToken(token);
-                msg.setChatId(chatId);
-                msg.setText("Your chatId = " + chatId);
+            THREAD_POOL.submit(() -> {
                 try {
-                    msg.execute();
+                    new SendMessage(
+                            token,
+                            chatId,
+                            String.format("Your chatId = %s", chatId)
+                    ).execute();
                 } catch (IOException ex) {
                     LOG.warn(ex.getMessage());
                 }
-            }
-        });
+            });
+        }
     }
 }
