@@ -13,7 +13,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/tg")
-public final class RestApi {
+public class RestApi {
 
     private static final Logger LOG = LoggerFactory.getLogger(RestApi.class);
 
