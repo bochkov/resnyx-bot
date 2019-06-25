@@ -12,9 +12,13 @@ jdk:
 services:
   - docker
 
+before_install:
+  - echo "artifactory_contextUrl=${AR_URL}" >> ~/.gradle/gradle.properties
+
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
   - rm -rf $HOME/.gradle/caches/*/plugin-resolution/
+
 cache:
   directories:
     - $HOME/.gradle/caches
