@@ -1,0 +1,34 @@
+plugins {
+    id 'org.springframework.boot' version '2.1.6.RELEASE'
+    id 'java'
+    id "com.jfrog.artifactory" version "4.9.5"
+}
+
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'com.jfrog.artifactory'
+
+group = 'com.sb'
+version = '1.0-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    
+    implementation(group: 'resnyx', name: 'resnyx', version: '1.0')
+    
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+artifactory {
+    contextUrl = "${artifactory_contextUrl}"
+    resolve {
+        repository {
+            repoKey = 'libs-release'
+            maven = true
+        }
+    }
+}
