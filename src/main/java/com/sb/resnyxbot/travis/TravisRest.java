@@ -17,12 +17,12 @@ public class TravisRest {
         this.travis = travis;
     }
 
-    @PostMapping("/travis")
+    @PostMapping
     public void travisNotif(@RequestBody TravisUpd payload) {
         travis.send(payload);
     }
 
-    @PostMapping("/travis/force")
+    @PostMapping("/force")
     public void travisForce() {
         travis.test();
     }
