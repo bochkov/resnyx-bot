@@ -1,4 +1,4 @@
-package com.sb.resnyxbot;
+package com.sb.resnyxbot.forismatic;
 
 import com.jcabi.http.request.JdkRequest;
 import com.sb.resnyxbot.prop.ArrProp;

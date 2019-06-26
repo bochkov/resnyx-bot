@@ -1,5 +1,6 @@
 package com.sb.resnyxbot;
 
+import com.sb.resnyxbot.forismatic.Forismatic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import resnyx.TgMethod;

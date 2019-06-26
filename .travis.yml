@@ -32,3 +32,8 @@ after_success:
   - docker tag resnyx:latest 902382300595.dkr.ecr.us-east-1.amazonaws.com/resnyx:latest
   - eval $(aws ecr get-login --region us-east-1 --no-include-email)
   - docker push 902382300595.dkr.ecr.us-east-1.amazonaws.com/resnyx:latest
+
+notifications:
+  webhooks:
+    urls:
+      - http://resnyx.sergeybochkov.com/api/travis

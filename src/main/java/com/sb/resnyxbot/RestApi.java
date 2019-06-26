@@ -1,5 +1,8 @@
 package com.sb.resnyxbot;
 
+import com.sb.resnyxbot.forismatic.Forismatic;
+import com.sb.resnyxbot.travis.Travis;
+import com.sb.resnyxbot.travis.TravisUpd;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,5 +32,15 @@ public class RestApi {
     @PostMapping("/f/push")
     public void forceForismatic(@Autowired Forismatic forismatic) {
         forismatic.send();
+    }
+
+    @PostMapping("/travis")
+    public void travisNotif(@RequestBody TravisUpd payload, @Autowired Travis travis) {
+        travis.send(payload);
+    }
+
+    @PostMapping("/travis/force")
+    public void travisForce(@Autowired Travis travis) {
+        travis.test();
     }
 }
