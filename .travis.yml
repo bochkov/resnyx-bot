@@ -36,4 +36,4 @@ after_success:
 notifications:
   webhooks:
     urls:
-      - http://resnyx.sergeybochkov.com/api/travis
+      - https://resnyx.sergeybochkov.com/api/travis
