@@ -1,8 +1,6 @@
 package com.sb.resnyxbot.forismatic;
 
 import com.jcabi.http.request.JdkRequest;
-import com.sb.resnyxbot.prop.ArrProp;
-import com.sb.resnyxbot.prop.ArrPropRepo;
 import com.sb.resnyxbot.prop.PropRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,12 +17,10 @@ public class Forismatic {
     private static final Logger LOG = LoggerFactory.getLogger(Forismatic.class);
 
     private final PropRepo propRepo;
-    private final ArrPropRepo arrPropRepo;
 
     @Autowired
-    public Forismatic(PropRepo propRepo, ArrPropRepo arrPropRepo) {
+    public Forismatic(PropRepo propRepo) {
         this.propRepo = propRepo;
-        this.arrPropRepo = arrPropRepo;
     }
 
     // second, minute, hour, day of month, month and day of week
@@ -33,15 +29,18 @@ public class Forismatic {
         propRepo
                 .findById("tg.token")
                 .ifPresentOrElse(
-                        tok -> arrPropRepo
+                        tok -> propRepo
                                 .findById("chat.auto.send")
                                 .ifPresentOrElse(
                                         prop -> {
-                                            for (ArrProp.ChatId chat : prop.getValue()) {
+                                            for (String chatId : prop.getValue().split(";")) {
                                                 try {
                                                     String text = String.format("Мудрость дня:%n%s", get());
-                                                    new SendMessage(tok.getValue(), chat.getId(), text)
-                                                            .execute();
+                                                    new SendMessage(
+                                                            tok.getValue(),
+                                                            Long.valueOf(chatId),
+                                                            text
+                                                    ).execute();
                                                 } catch (IOException ex) {
                                                     LOG.warn(ex.getMessage(), ex);
                                                 }
