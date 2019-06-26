@@ -1,6 +1,5 @@
 package com.sb.resnyxbot.travis;
 
-import com.sb.resnyxbot.forismatic.Forismatic;
 import com.sb.resnyxbot.prop.PropRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +12,7 @@ import java.io.IOException;
 @Service
 public class Travis {
 
-    private static final Logger LOG = LoggerFactory.getLogger(Forismatic.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Travis.class);
 
     private final PropRepo propRepo;
 
@@ -56,5 +55,4 @@ public class Travis {
     public void send(TravisUpd payload) {
         template(payload.msg());
     }
-
 }
