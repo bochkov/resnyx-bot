@@ -4,6 +4,7 @@ plugins {
     id "com.jfrog.artifactory" version "4.9.5"
 }
 
+apply plugin: 'java'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'com.jfrog.artifactory'
 
@@ -38,4 +39,8 @@ artifactory {
             maven = true
         }
     }
+}
+
+bootJar {
+    archiveFileName = "resnyx-bot.jar"
 }
