@@ -8,7 +8,7 @@ RUN wget -O /usr/local/bin/dumb-init https://github.com/Yelp/dumb-init/releases/
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 VOLUME /tmp
 WORKDIR /opt
-ADD build/libs/resnyx-bot-1.0-SNAPSHOT.jar /opt/resnyx-bot.jar
+ADD build/libs/resnyx-bot.jar /opt/resnyx-bot.jar
 EXPOSE 8080
 ENTRYPOINT ["/usr/local/bin/dumb-init", "--"]
 CMD ["sh", "-c", "java $JAVA_OPTS -Dfile.encoding=UTF-8 -jar resnyx-bot.jar --host=mongo"]
