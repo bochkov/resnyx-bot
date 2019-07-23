@@ -1,6 +1,6 @@
 plugins {
-    id 'org.springframework.boot' version '2.1.6.RELEASE'
     id 'java'
+    id 'org.springframework.boot' version '2.1.6.RELEASE'
     id "com.jfrog.artifactory" version "4.9.5"
 }
 
@@ -8,7 +8,7 @@ apply plugin: 'io.spring.dependency-management'
 apply plugin: 'com.jfrog.artifactory'
 
 group = 'com.sb'
-version = '1.0-SNAPSHOT'
+version = '1.1-SNAPSHOT'
 sourceCompatibility = '11'
 
 repositories {
@@ -19,11 +19,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 
-    implementation(group: 'resnyx', name: 'resnyx', version: '1.0')
+    implementation(group: 'resnyx', name: 'resnyx', version: '1.1')
     implementation(group: 'com.jcabi', name: 'jcabi-http', version: '1.17.2')
 
     compile group: 'org.jsoup', name: 'jsoup', version: '1.12.1'
-
 
     compileOnly 'org.projectlombok:lombok:1.18.8'
     annotationProcessor 'org.projectlombok:lombok:1.18.8'
