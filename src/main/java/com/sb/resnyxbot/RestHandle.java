@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import resnyx.TgMethod;
 import resnyx.model.Update;
 
 import java.io.IOException;
@@ -30,9 +31,9 @@ public class RestHandle {
         if (shouldAnswer(payload)) {
             THREAD_POOL.submit(() -> {
                 try {
-                    resnyxAnswers
-                            .choose(token, payload.getMessage())
-                            .execute();
+                    for (TgMethod method : resnyxAnswers.choose(token, payload.getMessage())) {
+                        method.execute();
+                    }
                 } catch (IOException ex) {
                     LOG.warn(ex.getMessage(), ex);
                 }
