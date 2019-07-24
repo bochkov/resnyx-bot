@@ -1,7 +1,7 @@
 plugins {
     id 'java'
     id 'org.springframework.boot' version '2.1.6.RELEASE'
-    id "com.jfrog.artifactory" version "4.9.5"
+    id "com.jfrog.artifactory" version "4.9.8"
 }
 
 apply plugin: 'java'
@@ -20,7 +20,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 
-    implementation(group: 'resnyx', name: 'resnyx', version: '1.1')
+    implementation(group: 'resnyx', name: 'resnyx', version: '1.1.1')
     implementation(group: 'com.jcabi', name: 'jcabi-http', version: '1.17.2')
 
     compile group: 'org.jsoup', name: 'jsoup', version: '1.12.1'
