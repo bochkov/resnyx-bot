@@ -1,19 +1,20 @@
 plugins {
     id 'java'
     id 'org.springframework.boot' version '2.1.6.RELEASE'
-    id "com.jfrog.artifactory" version "4.9.8"
 }
 
 apply plugin: 'java'
 apply plugin: 'io.spring.dependency-management'
-apply plugin: 'com.jfrog.artifactory'
 
 group = 'com.sb'
 version = '1.1-SNAPSHOT'
 sourceCompatibility = '11'
 
 repositories {
-    mavenCentral()
+    jcenter()
+    maven {
+        url "${artifactory_contextUrl}/libs-release"
+    }
 }
 
 dependencies {
@@ -30,16 +31,6 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.8'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-}
-
-artifactory {
-    contextUrl = "${artifactory_contextUrl}"
-    resolve {
-        repository {
-            repoKey = 'libs-release'
-            maven = true
-        }
-    }
 }
 
 bootJar {
