@@ -12,9 +12,6 @@ jdk:
 services:
   - docker
 
-before_install:
-  - echo "artifactory_contextUrl=${AR_URL}" >> $HOME/.gradle/gradle.properties
-
 after_success:
   - pip install --user awscli
   - export PATH=$PATH:$HOME/.local/bin

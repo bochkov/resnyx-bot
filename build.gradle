@@ -8,12 +8,12 @@ apply plugin: 'io.spring.dependency-management'
 
 group = 'com.sb'
 version = '1.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
     jcenter()
     maven {
-        url "${artifactory_contextUrl}/libs-release"
+        url "https://artifactory.sergeybochkov.com/artifactory/libs-release"
     }
 }
 
