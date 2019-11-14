@@ -42,8 +42,16 @@ public class RestHandle {
     }
 
     private boolean shouldAnswer(Update update) {
-        String text = update.getMessage().getText();
+        String text = fromMsg(update);
         return text != null
                 && (text.startsWith("@resnyx") || text.startsWith("/"));
+    }
+
+    private String fromMsg(Update update) {
+        if (update.getMessage() != null)
+            return update.getMessage().getText();
+        if (update.getEditedMessage() != null)
+            return update.getEditedMessage().getText();
+        return "";
     }
 }
