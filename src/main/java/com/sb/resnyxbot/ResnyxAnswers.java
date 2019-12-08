@@ -24,7 +24,7 @@ public final class ResnyxAnswers {
         this.rutor = rutor;
     }
 
-    public List<TgMethod> choose(final String token, final Message msg) {
+    public List<TgMethod<Message>> choose(final String token, final Message msg) {
         final Long chatId = msg.getChat().getId();
         if (msg.getText().toLowerCase().contains("цитат")) {
             String txt = forismatic.get();

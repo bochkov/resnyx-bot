@@ -6,6 +6,7 @@ import resnyx.TgMethod;
 import resnyx.methods.message.SendDocument;
 import resnyx.methods.message.SendMessage;
 import resnyx.model.InputFile;
+import resnyx.model.Message;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -28,7 +29,7 @@ public final class Torrent {
         this.downloadUrl = downloadUrl;
     }
 
-    public List<TgMethod> toTgMethods(String token, Long chatId) throws IOException {
+    public List<TgMethod<Message>> toTgMethods(String token, Long chatId) throws IOException {
         if (this.equals(EMPTY)) {
             return Collections.singletonList(
                     new SendMessage(token, chatId,

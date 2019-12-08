@@ -27,11 +27,12 @@ public class RestHandle {
 
     @PostMapping("/{token}")
     public void incoming(@PathVariable String token, @RequestBody Update payload) {
-        LOG.info(payload.toString());
+        String msg = payload.toString();
+        LOG.info(msg);
         if (shouldAnswer(payload)) {
             THREAD_POOL.submit(() -> {
                 try {
-                    for (TgMethod method : resnyxAnswers.choose(token, payload.getMessage())) {
+                    for (TgMethod<?> method : resnyxAnswers.choose(token, payload.getMessage())) {
                         method.execute();
                     }
                 } catch (IOException ex) {
