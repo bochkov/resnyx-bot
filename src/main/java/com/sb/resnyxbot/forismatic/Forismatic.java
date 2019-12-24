@@ -1,5 +1,6 @@
 package com.sb.resnyxbot.forismatic;
 
+import com.jcabi.http.Response;
 import com.jcabi.http.request.JdkRequest;
 import com.sb.resnyxbot.prop.PropRepo;
 import org.slf4j.Logger;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import resnyx.methods.message.SendMessage;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
 
 @Service
 public class Forismatic {
@@ -50,20 +52,20 @@ public class Forismatic {
                                 ),
                         () -> LOG.info("tg.token is empty. exit")
                 );
-
-
     }
 
     public String get() {
         try {
-            return new JdkRequest("http://api.forismatic.com/api/1.0/")
+            Response resp = new JdkRequest("http://api.forismatic.com/api/1.0/")
                     .uri()
                     .queryParam("method", "getQuote")
                     .queryParam("format", "text")
                     .queryParam("lang", "ru")
                     .back()
-                    .fetch()
-                    .body();
+                    .fetch();
+            if (resp.status() != HttpURLConnection.HTTP_OK)
+                throw new IOException(String.valueOf(resp.status()));
+            return resp.body();
         } catch (IOException ex) {
             LOG.warn(ex.getMessage(), ex);
             return "не сегодня";
