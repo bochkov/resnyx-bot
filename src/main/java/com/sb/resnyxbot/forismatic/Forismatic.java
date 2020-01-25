@@ -1,29 +1,26 @@
 package com.sb.resnyxbot.forismatic;
 
-import com.jcabi.http.Response;
-import com.jcabi.http.request.JdkRequest;
 import com.sb.resnyxbot.prop.PropRepo;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 import resnyx.methods.message.SendMessage;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
 
+@Slf4j
+@RequiredArgsConstructor
 @Service
 public class Forismatic {
 
-    private static final Logger LOG = LoggerFactory.getLogger(Forismatic.class);
-
     private final PropRepo propRepo;
-
-    @Autowired
-    public Forismatic(PropRepo propRepo) {
-        this.propRepo = propRepo;
-    }
 
     // second, minute, hour, day of month, month and day of week
     @Scheduled(cron = "0 0 6 * * *")
@@ -44,30 +41,30 @@ public class Forismatic {
                                                             text
                                                     ).execute();
                                                 } catch (IOException ex) {
-                                                    LOG.warn(ex.getMessage(), ex);
+                                                    log.warn(ex.getMessage(), ex);
                                                 }
                                             }
                                         },
-                                        () -> LOG.info("chat.auto.send is empty. exit")
+                                        () -> log.info("chat.auto.send is empty. exit")
                                 ),
-                        () -> LOG.info("tg.token is empty. exit")
+                        () -> log.info("tg.token is empty. exit")
                 );
     }
 
     public String get() {
+        RestTemplate rest = new RestTemplate();
+        UriComponents uris = UriComponentsBuilder.fromHttpUrl("http://api.forismatic.com/api/1.0/")
+                .queryParam("method", "getQuote")
+                .queryParam("format", "text")
+                .queryParam("lang", "ru")
+                .build();
         try {
-            Response resp = new JdkRequest("http://api.forismatic.com/api/1.0/")
-                    .uri()
-                    .queryParam("method", "getQuote")
-                    .queryParam("format", "text")
-                    .queryParam("lang", "ru")
-                    .back()
-                    .fetch();
-            if (resp.status() != HttpURLConnection.HTTP_OK)
-                throw new IOException(String.valueOf(resp.status()));
-            return resp.body();
-        } catch (IOException ex) {
-            LOG.warn(ex.getMessage(), ex);
+            ResponseEntity<String> response = rest.getForEntity(uris.toUriString(), String.class);
+            if (response.getStatusCode() != HttpStatus.OK)
+                throw new RestClientException("status = " + response.getStatusCode());
+            return response.getBody();
+        } catch (RestClientException ex) {
+            log.warn(ex.getMessage(), ex);
             return "не сегодня";
         }
     }

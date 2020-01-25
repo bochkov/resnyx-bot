@@ -22,8 +22,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 
     implementation(group: 'resnyx', name: 'resnyx', version: '1.1.1')
-    implementation(group: 'com.jcabi', name: 'jcabi-http', version: '1.17.2')
-    implementation 'com.sun.jersey:jersey-client:1.19.4'
 
     compile group: 'org.jsoup', name: 'jsoup', version: '1.12.1'
 

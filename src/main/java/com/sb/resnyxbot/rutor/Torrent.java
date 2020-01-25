@@ -1,7 +1,8 @@
 package com.sb.resnyxbot.rutor;
 
-import com.jcabi.http.Response;
-import com.jcabi.http.request.JdkRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 import resnyx.TgMethod;
 import resnyx.methods.message.SendDocument;
 import resnyx.methods.message.SendMessage;
@@ -36,9 +37,11 @@ public final class Torrent {
                             "Не получилось определить документ для скачивания")
             );
         } else {
-            Response resp = new JdkRequest(downloadUrl).fetch();
-            byte[] bytes = resp.binary();
-            String header = resp.headers()
+            ResponseEntity<byte[]> response = new RestTemplate().getForEntity(downloadUrl, byte[].class);
+            if (response.getStatusCode() != HttpStatus.OK)
+                throw new IOException("status = " + response.getStatusCode());
+            byte[] bytes = response.getBody();
+            String header = response.getHeaders()
                     .computeIfAbsent("Content-Disposition", s -> Collections.singletonList(""))
                     .get(0);
             Matcher m = FN.matcher(header);
