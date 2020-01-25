@@ -26,7 +26,7 @@ public class Forismatic {
     }
 
     // second, minute, hour, day of month, month and day of week
-    @Scheduled(cron = "0 0 0 * * *")
+    @Scheduled(cron = "0 0 6 * * *")
     public void send() {
         propRepo
                 .findById("tg.token")
