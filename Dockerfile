@@ -1,5 +1,5 @@
 FROM openjdk:11-jre
-ENV TZ America/New_York
+ENV TZ Europe/Berlin
 ENV LANG ru_RU.UTF-8
 ENV LANGUAGE ru_RU:en
 ENV LC_ALL ru_RU.UTF-8
