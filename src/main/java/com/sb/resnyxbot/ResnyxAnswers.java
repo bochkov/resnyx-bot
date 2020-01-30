@@ -1,8 +1,9 @@
 package com.sb.resnyxbot;
 
 import com.sb.resnyxbot.forismatic.Forismatic;
+import com.sb.resnyxbot.qr.QrService;
 import com.sb.resnyxbot.rutor.Rutor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import resnyx.TgMethod;
 import resnyx.methods.message.SendMessage;
@@ -13,25 +14,24 @@ import java.util.Collections;
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public final class ResnyxAnswers {
 
     private final Forismatic forismatic;
     private final Rutor rutor;
-
-    @Autowired
-    public ResnyxAnswers(Forismatic forismatic, Rutor rutor) {
-        this.forismatic = forismatic;
-        this.rutor = rutor;
-    }
+    private final QrService qrService;
 
     public List<TgMethod<Message>> choose(final String token, final Message msg) {
         final Long chatId = msg.getChat().getId();
-        if (msg.getText().toLowerCase().contains("цитат")) {
+        final String text = msg.getText().toLowerCase();
+        if (text.contains("цитат")) {
             String txt = forismatic.get();
             return Collections.singletonList(
                     new SendMessage(token, chatId, txt)
             );
-        } else if (msg.getText().toLowerCase().contains("rutor")) {
+        } else if (text.contains("qr")) {
+            return Collections.emptyList();
+        } else if (text.contains("rutor")) {
             try {
                 return rutor
                         .fetch(msg.getText())

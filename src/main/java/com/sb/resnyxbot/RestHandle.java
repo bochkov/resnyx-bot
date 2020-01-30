@@ -1,8 +1,8 @@
 package com.sb.resnyxbot;
 
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import resnyx.TgMethod;
 import resnyx.model.Update;
@@ -13,17 +13,13 @@ import java.util.concurrent.Executors;
 
 @RestController
 @RequestMapping("/bot")
+@RequiredArgsConstructor
 public class RestHandle {
 
     private static final Logger LOG = LoggerFactory.getLogger(RestHandle.class);
     private static final ExecutorService THREAD_POOL = Executors.newFixedThreadPool(5);
 
     private final ResnyxAnswers resnyxAnswers;
-
-    @Autowired
-    public RestHandle(ResnyxAnswers answers) {
-        this.resnyxAnswers = answers;
-    }
 
     @PostMapping("/{token}")
     public void incoming(@PathVariable String token, @RequestBody Update payload) {
