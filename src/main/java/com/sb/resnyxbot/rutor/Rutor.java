@@ -1,16 +1,22 @@
 package com.sb.resnyxbot.rutor;
 
+import com.sb.resnyxbot.ResnyxService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.stereotype.Service;
+import resnyx.TgMethod;
+import resnyx.methods.message.SendMessage;
+import resnyx.model.Message;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
-public class Rutor {
+public class Rutor implements ResnyxService {
 
     private static final Pattern URL = Pattern.compile("https?://.*");
 
@@ -33,4 +39,15 @@ public class Rutor {
             return Torrent.EMPTY;
     }
 
+    @Override
+    public List<TgMethod<Message>> answer(String token, Message msg) {
+        try {
+            return fetch(msg.getText())
+                    .toTgMethods(token, msg.getChat().getId());
+        } catch (IOException ex) {
+            return Collections.singletonList(
+                    new SendMessage(token, msg.getChat().getId(), ex.getMessage())
+            );
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package com.sb.resnyxbot.forismatic;
 
+import com.sb.resnyxbot.ResnyxService;
 import com.sb.resnyxbot.prop.PropRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,14 +12,18 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
+import resnyx.TgMethod;
 import resnyx.methods.message.SendMessage;
+import resnyx.model.Message;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class Forismatic {
+public class Forismatic implements ResnyxService {
 
     private final PropRepo propRepo;
 
@@ -34,7 +39,7 @@ public class Forismatic {
                                         prop -> {
                                             for (String chatId : prop.getValue().split(";")) {
                                                 try {
-                                                    String text = String.format("Мудрость дня:%n%s", get());
+                                                    String text = String.format("Мудрость дня:%n%s", cite());
                                                     new SendMessage(
                                                             tok.getValue(),
                                                             Long.valueOf(chatId),
@@ -51,7 +56,7 @@ public class Forismatic {
                 );
     }
 
-    public String get() {
+    public String cite() {
         RestTemplate rest = new RestTemplate();
         UriComponents uris = UriComponentsBuilder.fromHttpUrl("http://api.forismatic.com/api/1.0/")
                 .queryParam("method", "getQuote")
@@ -67,5 +72,12 @@ public class Forismatic {
             log.warn(ex.getMessage(), ex);
             return "не сегодня";
         }
+    }
+
+    @Override
+    public List<TgMethod<Message>> answer(String token, Message msg) {
+        return Collections.singletonList(
+                new SendMessage(token, msg.getChat().getId(), cite())
+        );
     }
 }
