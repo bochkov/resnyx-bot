@@ -32,7 +32,7 @@ public final class FirstAutoServ implements AutoServ {
     @Override
     public Region findRegionByName(String name) {
         log.info("searching by name = '{}'", name);
-        return regions.findByNameContainingIgnoreCase(name);
+        return regions.findByNameStartsWithIgnoreCase(name);
     }
 
     @Override

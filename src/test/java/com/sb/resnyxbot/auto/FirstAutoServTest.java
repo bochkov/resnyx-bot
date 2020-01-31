@@ -47,4 +47,24 @@ public class FirstAutoServTest {
                 send.getText()
         );
     }
+
+    @Test
+    @DisplayName("Testing AutoService Tg Answer")
+    void testAnswerPart() {
+        Message message = new Message();
+        Chat chat = new Chat();
+        chat.setId(123L);
+        message.setChat(chat);
+        message.setText("/авто алтай");
+
+        List<TgMethod<Message>> res = autoServ.answer("token", message);
+        Assertions.assertEquals(1, res.size());
+        TgMethod<?> method = res.get(0);
+        Assertions.assertTrue(method instanceof SendMessage);
+        SendMessage send = (SendMessage) method;
+        Assertions.assertEquals(
+                "Алтайский край = 22",
+                send.getText()
+        );
+    }
 }

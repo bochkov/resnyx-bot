@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RegionRepo extends JpaRepository<Region, Integer> {
 
-    Region findByNameContainingIgnoreCase(String name);
+    Region findByNameStartsWithIgnoreCase(String name);
 
 }
