@@ -7,6 +7,7 @@ import resnyx.TgMethod;
 import resnyx.methods.message.SendMessage;
 import resnyx.model.Message;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -30,30 +31,38 @@ public final class FirstAutoServ implements AutoServ {
     }
 
     @Override
-    public Region findRegionByName(String name) {
+    public List<Region> findRegionByName(String name) {
         log.info("searching by name = '{}'", name);
-        return regions.findByNameStartsWithIgnoreCase(name);
+        return regions.findByNameContainingIgnoreCase(name);
     }
 
     @Override
     public List<TgMethod<Message>> answer(String token, Message msg) {
         String text = msg.getText();
         Matcher digits = DIGITS.matcher(text);
-        Region reg = digits.find() ?
-                findRegionByCode(digits.group()) :
+        List<Region> regs = digits.find() ?
+                Collections.singletonList(findRegionByCode(digits.group())) :
                 findRegionByName(text.substring(text.indexOf(' ') + 1));
-        String ans = (reg == null) ?
-                "не смог(" :
-                String.format(
-                        "%s = %s",
-                        reg.getName(),
-                        reg.getCodes()
-                                .stream()
-                                .map(Code::getValue)
-                                .collect(Collectors.joining(", "))
-                );
-        return Collections.singletonList(
-                new SendMessage(token, msg.getChat().getId(), ans)
-        );
+        return (regs == null || regs.isEmpty()) ?
+                Collections.singletonList(
+                        new SendMessage(token, msg.getChat().getId(), "не смог(")
+                ) :
+                messages(regs, token, msg.getChat().getId());
+    }
+
+    private List<TgMethod<Message>> messages(List<Region> regions, String token, Long chatId) {
+        List<TgMethod<Message>> messages = new ArrayList<>();
+        for (Region region : regions) {
+            String ans = String.format(
+                    "%s = %s",
+                    region.getName(),
+                    region.getCodes()
+                            .stream()
+                            .map(Code::getValue)
+                            .collect(Collectors.joining(", "))
+            );
+            messages.add(new SendMessage(token, chatId, ans));
+        }
+        return messages;
     }
 }

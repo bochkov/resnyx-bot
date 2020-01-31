@@ -23,9 +23,9 @@ public class FirstAutoServTest {
     @Test
     @DisplayName("Test fetch data from table")
     void testFindRegionByName() {
-        Region region = autoServ.findRegionByName("Свердловск");
-        Assertions.assertNotNull(region);
-        Assertions.assertEquals(3, region.getCodes().size());
+        List<Region> regions = autoServ.findRegionByName("Свердловск");
+        Assertions.assertEquals(1, regions.size());
+        Assertions.assertEquals(3, regions.get(0).getCodes().size());
     }
 
     @Test
@@ -58,13 +58,13 @@ public class FirstAutoServTest {
         message.setText("/авто алтай");
 
         List<TgMethod<Message>> res = autoServ.answer("token", message);
-        Assertions.assertEquals(1, res.size());
-        TgMethod<?> method = res.get(0);
-        Assertions.assertTrue(method instanceof SendMessage);
-        SendMessage send = (SendMessage) method;
-        Assertions.assertEquals(
-                "Алтайский край = 22",
-                send.getText()
-        );
+        Assertions.assertEquals(2, res.size());
+        for (TgMethod<Message> method : res) {
+            Assertions.assertTrue(method instanceof SendMessage);
+            SendMessage send = (SendMessage) method;
+            Assertions.assertFalse(
+                    send.getText().isEmpty()
+            );
+        }
     }
 }

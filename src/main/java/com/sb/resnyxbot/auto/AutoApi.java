@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/auto")
 @RequiredArgsConstructor
@@ -19,7 +21,7 @@ public final class AutoApi {
     }
 
     @GetMapping("/forRegion")
-    public Region forRegion(@RequestParam String region) {
+    public List<Region> forRegion(@RequestParam String region) {
         return autoServ.findRegionByName(region);
     }
 }
