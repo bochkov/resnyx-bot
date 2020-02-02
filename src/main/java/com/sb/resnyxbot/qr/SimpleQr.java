@@ -9,13 +9,13 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import lombok.extern.slf4j.Slf4j;
 import resnyx.TgMethod;
 import resnyx.methods.message.SendPhoto;
+import resnyx.model.InputFile;
 import resnyx.model.Message;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.List;
@@ -25,7 +25,7 @@ import java.util.Map;
 public final class SimpleQr implements QrService {
 
     @Override
-    public BufferedImage encode(String value, Integer size, Color color, byte[] logo) throws WriterException, IOException {
+    public BufferedImage encode(String value, Integer size, Color color, byte[] logo) throws WriterException {
         QRCodeWriter writer = new QRCodeWriter();
         Map<EncodeHintType, ErrorCorrectionLevel> hints = new EnumMap<>(EncodeHintType.class);
         hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
@@ -68,17 +68,23 @@ public final class SimpleQr implements QrService {
 
     @Override
     public List<TgMethod<Message>> answer(String token, Message msg) {
+        String text = msg.getText();
+        String value = text.substring(text.indexOf(' ') + 1);
         try {
             // bufferedimage to png
-            BufferedImage image = encode("Hello world", 350, Color.BLUE, new byte[]{});
-            String png;
+            BufferedImage image = encode(value, 500, Color.BLACK, new byte[]{});
+            byte[] buffer;
             try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
                 ImageIO.write(image, "png", out);
-                png = out.toString();
+                buffer = out.toByteArray();
             }
             // save png to send message
             return List.of(
-                    new SendPhoto(token, msg.getChat().getId(), png)
+                    new SendPhoto(
+                            token,
+                            msg.getChat().getId(),
+                            new InputFile(buffer, "qr.png")
+                    )
             );
         } catch (Exception ex) {
             log.warn(ex.getMessage(), ex);
