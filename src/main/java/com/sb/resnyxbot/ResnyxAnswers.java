@@ -28,7 +28,7 @@ public final class ResnyxAnswers {
         if (text.contains("цитат")) {
             return forismatic.answer(token, msg);
         } else if (text.contains("qr")) {
-            return Collections.emptyList();
+            return qrService.answer(token, msg);
         } else if (text.contains("авто")) {
             return autoServ.answer(token, msg);
         } else if (text.contains("rutor")) {

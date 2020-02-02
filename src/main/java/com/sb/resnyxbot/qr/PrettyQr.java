@@ -3,6 +3,8 @@ package com.sb.resnyxbot.qr;
 import com.google.zxing.WriterException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import resnyx.TgMethod;
+import resnyx.model.Message;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -11,6 +13,7 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -67,5 +70,10 @@ public final class PrettyQr implements QrService {
         AffineTransform scale = AffineTransform.getScaleInstance(scaleX, scaleY);
         AffineTransformOp scaleOp = new AffineTransformOp(scale, AffineTransformOp.TYPE_BILINEAR);
         return scaleOp.filter(image, new BufferedImage(width, height, image.getType()));
+    }
+
+    @Override
+    public List<TgMethod<Message>> answer(String token, Message msg) {
+        return simpleQr.answer(token, msg);
     }
 }

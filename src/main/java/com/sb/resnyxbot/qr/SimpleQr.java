@@ -7,11 +7,18 @@ import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import lombok.extern.slf4j.Slf4j;
+import resnyx.TgMethod;
+import resnyx.methods.message.SendPhoto;
+import resnyx.model.Message;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -57,5 +64,25 @@ public final class SimpleQr implements QrService {
             }
         }
         return qrResult != null && value != null && value.equals(qrResult.getText());
+    }
+
+    @Override
+    public List<TgMethod<Message>> answer(String token, Message msg) {
+        try {
+            // bufferedimage to png
+            BufferedImage image = encode("Hello world", 350, Color.BLUE, new byte[]{});
+            String png;
+            try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+                ImageIO.write(image, "png", out);
+                png = out.toString();
+            }
+            // save png to send message
+            return List.of(
+                    new SendPhoto(token, msg.getChat().getId(), png)
+            );
+        } catch (Exception ex) {
+            log.warn(ex.getMessage(), ex);
+            return Collections.emptyList();
+        }
     }
 }

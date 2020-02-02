@@ -3,10 +3,13 @@ package com.sb.resnyxbot.qr;
 import com.google.zxing.WriterException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import resnyx.TgMethod;
+import resnyx.model.Message;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -25,5 +28,10 @@ public final class SafeQr implements QrService {
     @Override
     public boolean isQrCorrect(BufferedImage image, String value) {
         return origin.isQrCorrect(image, value);
+    }
+
+    @Override
+    public List<TgMethod<Message>> answer(String token, Message msg) {
+        return origin.answer(token, msg);
     }
 }
