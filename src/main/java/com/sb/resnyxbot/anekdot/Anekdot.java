@@ -48,7 +48,7 @@ public final class Anekdot implements ResnyxService {
                                         prop -> {
                                             for (String chatId : prop.getValue().split(";")) {
                                                 try {
-                                                    String text = String.format("Анекдот дня:%n%s", daily());
+                                                    String text = String.format("Анекдот дня:%n%s", daily().getText());
                                                     new SendMessage(
                                                             tok.getValue(),
                                                             Long.valueOf(chatId),

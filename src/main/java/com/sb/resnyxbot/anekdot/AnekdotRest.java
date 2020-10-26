@@ -15,7 +15,7 @@ public class AnekdotRest {
     private final Anekdot anekdot;
 
     @PostMapping("/push")
-    public Serializable forceForismatic() {
+    public Serializable rest() {
         return anekdot.daily();
     }
 }
