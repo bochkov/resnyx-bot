@@ -1,22 +1,21 @@
 package com.sb.resnyxbot;
 
-import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.*;
-import resnyx.TgMethod;
-import resnyx.model.Update;
-
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
+import resnyx.TgMethod;
+import resnyx.model.Update;
+
+@Slf4j
 @RestController
 @RequestMapping("/bot")
 @RequiredArgsConstructor
 public class RestHandle {
 
-    private static final Logger LOG = LoggerFactory.getLogger(RestHandle.class);
     private static final ExecutorService THREAD_POOL = Executors.newFixedThreadPool(5);
 
     private final ResnyxAnswers resnyxAnswers;

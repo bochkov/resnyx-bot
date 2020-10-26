@@ -1,18 +1,18 @@
 package com.sb.resnyxbot.auto;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import resnyx.TgMethod;
-import resnyx.methods.message.SendMessage;
-import resnyx.model.Message;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import resnyx.TgMethod;
+import resnyx.methods.message.SendMessage;
+import resnyx.model.Message;
 
 @Slf4j
 @Service
@@ -26,13 +26,13 @@ public final class FirstAutoServ implements AutoServ {
 
     @Override
     public Region findRegionByCode(String code) {
-        log.info("searching by code = '{}'", code);
+        LOG.info("searching by code = '{}'", code);
         return codes.findByValue(code).getRegion();
     }
 
     @Override
     public List<Region> findRegionByName(String name) {
-        log.info("searching by name = '{}'", name);
+        LOG.info("searching by name = '{}'", name);
         return regions.findByNameContainingIgnoreCase(name);
     }
 

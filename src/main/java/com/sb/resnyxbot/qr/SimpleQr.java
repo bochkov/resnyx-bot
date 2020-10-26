@@ -1,5 +1,14 @@
 package com.sb.resnyxbot.qr;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.util.Collections;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
+import javax.imageio.ImageIO;
+
 import com.google.zxing.*;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.BitMatrix;
@@ -11,15 +20,6 @@ import resnyx.TgMethod;
 import resnyx.methods.message.SendPhoto;
 import resnyx.model.InputFile;
 import resnyx.model.Message;
-
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.util.Collections;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
 
 @Slf4j
 public final class SimpleQr implements QrService {
@@ -60,7 +60,7 @@ public final class SimpleQr implements QrService {
                         )
                 );
             } catch (NotFoundException ex) {
-                log.info("", ex);
+                LOG.info("", ex);
             }
         }
         return qrResult != null && value != null && value.equals(qrResult.getText());
@@ -87,7 +87,7 @@ public final class SimpleQr implements QrService {
                     )
             );
         } catch (Exception ex) {
-            log.warn(ex.getMessage(), ex);
+            LOG.warn(ex.getMessage(), ex);
             return Collections.emptyList();
         }
     }
