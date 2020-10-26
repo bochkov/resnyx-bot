@@ -1,31 +1,43 @@
-package com.sb.resnyxbot.forismatic;
+package com.sb.resnyxbot.anekdot;
 
 import java.io.IOException;
+import java.net.URI;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
+import com.jcabi.xml.XMLDocument;
 import com.sb.resnyxbot.ResnyxService;
 import com.sb.resnyxbot.prop.PropRepo;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponents;
-import org.springframework.web.util.UriComponentsBuilder;
 import resnyx.TgMethod;
 import resnyx.methods.message.SendMessage;
 import resnyx.model.Message;
 
 @Slf4j
-@RequiredArgsConstructor
 @Service
-public class Forismatic implements ResnyxService {
+@RequiredArgsConstructor
+public final class Anekdot implements ResnyxService {
+
+    private static final DateTimeFormatter DTF = DateTimeFormatter.ofPattern("EEE, dd LLL yyyy HH:mm:ss Z", Locale.US);
+    private static final String URL = "https://www.anekdot.ru/rss/export20.xml";
 
     private final PropRepo propRepo;
 
+    @Override
+    public List<TgMethod<Message>> answer(String token, Message msg) {
+        return Collections.singletonList(
+                new SendMessage(token, msg.getChat().getId(), daily().getText())
+        );
+    }
+
+    @Scheduled(cron = "0 0 9 * * *")
     public void send() {
         propRepo
                 .findById("tg.token")
@@ -36,7 +48,7 @@ public class Forismatic implements ResnyxService {
                                         prop -> {
                                             for (String chatId : prop.getValue().split(";")) {
                                                 try {
-                                                    String text = String.format("Мудрость дня:%n%s", cite());
+                                                    String text = String.format("Анекдот дня:%n%s", daily());
                                                     new SendMessage(
                                                             tok.getValue(),
                                                             Long.valueOf(chatId),
@@ -53,28 +65,14 @@ public class Forismatic implements ResnyxService {
                 );
     }
 
-    public String cite() {
-        RestTemplate rest = new RestTemplate();
-        UriComponents uris = UriComponentsBuilder.fromHttpUrl("http://api.forismatic.com/api/1.0/")
-                .queryParam("method", "getQuote")
-                .queryParam("format", "text")
-                .queryParam("lang", "ru")
-                .build();
-        try {
-            ResponseEntity<String> response = rest.getForEntity(uris.toUriString(), String.class);
-            if (response.getStatusCode() != HttpStatus.OK)
-                throw new RestClientException("status = " + response.getStatusCode());
-            return response.getBody();
-        } catch (RestClientException ex) {
-            LOG.warn(ex.getMessage(), ex);
-            return "не сегодня";
-        }
-    }
-
-    @Override
-    public List<TgMethod<Message>> answer(String token, Message msg) {
-        return Collections.singletonList(
-                new SendMessage(token, msg.getChat().getId(), cite())
-        );
+    @SneakyThrows
+    public Anek daily() {
+        XMLDocument doc = new XMLDocument(new URI(URL));
+        String pubDateTxt = doc.xpath("//channel/pubDate/text()").get(0);
+        ZonedDateTime pubDate = ZonedDateTime.parse(pubDateTxt, DTF);
+        LOG.debug("pubDate={}", pubDate);
+        String anek = doc.xpath("//channel/item[1]/description/text()").get(0).replace("<br>", "\n");
+        LOG.debug("anek ={}", anek);
+        return new Anek(pubDate.toLocalDateTime(), anek);
     }
 }
