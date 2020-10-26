@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '2.2.2.RELEASE'
+    id 'org.springframework.boot' version '2.3.4.RELEASE'
 }
 
 apply plugin: 'java'
@@ -13,7 +13,7 @@ sourceCompatibility = JavaVersion.VERSION_11
 repositories {
     jcenter()
     maven {
-        url "https://artifactory.sergeybochkov.com/artifactory/libs-release"
+        url "https://nexus.sergeybochkov.com/repository/maven-public/"
     }
 }
 
@@ -24,14 +24,17 @@ dependencies {
 
     implementation 'com.h2database:h2'
 
-    implementation(group: 'resnyx', name: 'resnyx', version: '4.6')
+    implementation(group: 'resnyx', name: 'resnyx', version: '4.6.1')
 
     compile group: 'com.google.zxing', name: 'core', version: '3.4.0'
     compile group: 'com.google.zxing', name: 'javase', version: '3.4.0'
     compile group: 'org.jsoup', name: 'jsoup', version: '1.12.1'
+    compile group: 'com.jcabi', name: 'jcabi-xml', version: '0.22.2'
 
     compileOnly 'org.projectlombok:lombok:1.18.10'
+    testCompileOnly 'org.projectlombok:lombok:1.18.10'
     annotationProcessor 'org.projectlombok:lombok:1.18.10'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.10'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
