@@ -54,7 +54,7 @@ public final class Anekdot implements ResnyxService {
         }
         Anek daily = daily();
         Optional<Prop> lastAnek = propRepo.findById("anekdot.lastDate");
-        if (lastAnek.isPresent() && LocalDateTime.parse(lastAnek.get().getValue()).isAfter(daily.getDate())) {
+        if (lastAnek.isPresent() && !daily.getDate().isAfter(LocalDateTime.parse(lastAnek.get().getValue()))) {
             LOG.info("lastDate = {}, daily={}. Exit", lastAnek.get(), daily.getDate());
             return;
         }
