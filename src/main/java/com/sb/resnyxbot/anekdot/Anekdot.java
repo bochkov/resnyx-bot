@@ -70,7 +70,7 @@ public final class Anekdot implements ResnyxService {
                 LOG.warn(ex.getMessage(), ex);
             }
         }
-        propRepo.save(new Prop("anekdot.lastDate", LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)));
+        propRepo.save(new Prop("anekdot.lastDate", daily.fmtDate()));
     }
 
     @SneakyThrows
