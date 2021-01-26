@@ -33,9 +33,9 @@ public final class Anekdot implements ResnyxService {
 
     @Override
     public List<TgMethod<Message>> answer(String token, Message msg) {
-        return Collections.singletonList(
-                new SendMessage(token, msg.getChat().getId(), random().getText())
-        );
+        SendMessage reply = new SendMessage(token, msg.getChat().getId(), random().getText());
+        reply.setParseMode("html");
+        return Collections.singletonList(reply);
     }
 
     @Scheduled(cron = "0 0 9 * * *")
@@ -54,11 +54,13 @@ public final class Anekdot implements ResnyxService {
         for (String chId : chatId.get().getValue().split(";")) {
             try {
                 String text = String.format("Анекдот дня:%n%s", anek.getText());
-                new SendMessage(
+                SendMessage msg = new SendMessage(
                         tgToken.get().getValue(),
                         Long.valueOf(chId),
                         text
-                ).execute();
+                );
+                msg.setParseMode("html");
+                msg.execute();
             } catch (IOException ex) {
                 LOG.warn(ex.getMessage(), ex);
             }
