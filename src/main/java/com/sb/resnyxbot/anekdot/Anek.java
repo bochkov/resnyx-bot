@@ -19,7 +19,7 @@ public final class Anek implements Serializable {
     private final String text;
 
     public String text() {
-        return text.replace("<br>", "\n");
+        return text.replaceAll("<br>\\s*", "\n");
     }
 
     @SneakyThrows
@@ -35,5 +35,4 @@ public final class Anek implements Serializable {
         }
         return new Anek(id, text);
     }
-
 }

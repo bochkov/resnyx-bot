@@ -13,6 +13,7 @@ class AnekTest {
         LOG.info("{} = {}", anek.getId(), anek.getText());
         Assertions.assertFalse(anek.getText().isEmpty());
         Assertions.assertFalse(anek.text().contains("<br>"));
+        LOG.info("{}", anek.text());
     }
 
 }
