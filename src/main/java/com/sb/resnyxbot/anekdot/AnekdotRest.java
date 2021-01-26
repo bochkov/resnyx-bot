@@ -16,6 +16,6 @@ public class AnekdotRest {
 
     @PostMapping("/push")
     public Serializable rest() {
-        return anekdot.daily();
+        return anekdot.random();
     }
 }

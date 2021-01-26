@@ -1,5 +1,6 @@
 package com.sb.resnyxbot;
 
+import com.sb.resnyxbot.anekdot.Anekdot;
 import com.sb.resnyxbot.auto.AutoServ;
 import com.sb.resnyxbot.forismatic.Forismatic;
 import com.sb.resnyxbot.qr.QrService;
@@ -21,6 +22,7 @@ public final class ResnyxAnswers {
     private final Rutor rutor;
     private final QrService qrService;
     private final AutoServ autoServ;
+    private final Anekdot anekdot;
 
     public List<TgMethod<Message>> choose(final String token, final Message msg) {
         final Long chatId = msg.getChat().getId();
@@ -33,7 +35,9 @@ public final class ResnyxAnswers {
             return autoServ.answer(token, msg);
         } else if (text.contains("rutor")) {
             return rutor.answer(token, msg);
-        } else {
+        } else if (text.contains("анек")) {
+            return anekdot.answer(token, msg);
+        }else {
             String txt = String.format("Your chat_id = %s", chatId);
             return Collections.singletonList(
                     new SendMessage(token, chatId, txt)

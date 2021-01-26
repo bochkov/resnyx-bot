@@ -1,13 +1,13 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '2.3.4.RELEASE'
+    id 'org.springframework.boot' version '2.4.2'
 }
 
 apply plugin: 'java'
 apply plugin: 'io.spring.dependency-management'
 
 group = 'com.sb'
-version = '1.1-SNAPSHOT'
+version = '1.2-SNAPSHOT'
 sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
@@ -24,17 +24,17 @@ dependencies {
 
     implementation 'com.h2database:h2'
 
-    implementation(group: 'resnyx', name: 'resnyx', version: '4.6.1')
+    implementation group: 'resnyx', name: 'resnyx', version: '4.6.1'
 
-    compile group: 'com.google.zxing', name: 'core', version: '3.4.0'
-    compile group: 'com.google.zxing', name: 'javase', version: '3.4.0'
-    compile group: 'org.jsoup', name: 'jsoup', version: '1.12.1'
+    compile group: 'com.google.zxing', name: 'core', version: '3.4.1'
+    compile group: 'com.google.zxing', name: 'javase', version: '3.4.1'
+    compile group: 'org.jsoup', name: 'jsoup', version: '1.13.1'
     compile group: 'com.jcabi', name: 'jcabi-xml', version: '0.22.2'
 
-    compileOnly 'org.projectlombok:lombok:1.18.10'
-    testCompileOnly 'org.projectlombok:lombok:1.18.10'
-    annotationProcessor 'org.projectlombok:lombok:1.18.10'
-    testAnnotationProcessor 'org.projectlombok:lombok:1.18.10'
+    compileOnly 'org.projectlombok:lombok:1.18.16'
+    testCompileOnly 'org.projectlombok:lombok:1.18.16'
+    annotationProcessor 'org.projectlombok:lombok:1.18.16'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.16'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
