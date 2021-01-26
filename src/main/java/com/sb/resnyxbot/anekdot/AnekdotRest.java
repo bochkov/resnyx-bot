@@ -12,10 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/anekdot")
 public class AnekdotRest {
 
-    private final Anekdot anekdot;
-
     @PostMapping("/push")
     public Serializable rest() {
-        return anekdot.random();
+        return Anek.random();
     }
 }
