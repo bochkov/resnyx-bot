@@ -1,6 +1,7 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '2.4.2'
+    id 'org.springframework.boot' version '2.5.3'
+    id "com.github.ben-manes.versions" version "0.39.0"
 }
 
 apply plugin: 'java'
@@ -11,7 +12,7 @@ version = '1.2-SNAPSHOT'
 sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
-    jcenter()
+    mavenCentral()
     maven {
         url "https://nexus.sergeybochkov.com/repository/maven-public/"
     }
@@ -24,17 +25,17 @@ dependencies {
 
     implementation 'com.h2database:h2'
 
-    implementation group: 'resnyx', name: 'resnyx', version: '4.6.1'
+    implementation 'resnyx:resnyx:4.6.4'
 
-    compile group: 'com.google.zxing', name: 'core', version: '3.4.1'
-    compile group: 'com.google.zxing', name: 'javase', version: '3.4.1'
-    compile group: 'org.jsoup', name: 'jsoup', version: '1.13.1'
-    compile group: 'com.jcabi', name: 'jcabi-xml', version: '0.22.2'
+    implementation 'com.google.zxing:core:3.4.1'
+    implementation 'com.google.zxing:javase:3.4.1'
+    implementation 'org.jsoup:jsoup:1.14.2'
+    implementation 'com.jcabi:jcabi-xml:0.22.2'
 
-    compileOnly 'org.projectlombok:lombok:1.18.16'
-    testCompileOnly 'org.projectlombok:lombok:1.18.16'
-    annotationProcessor 'org.projectlombok:lombok:1.18.16'
-    testAnnotationProcessor 'org.projectlombok:lombok:1.18.16'
+    compileOnly 'org.projectlombok:lombok:1.18.20'
+    testCompileOnly 'org.projectlombok:lombok:1.18.20'
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.20'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
@@ -45,4 +46,10 @@ bootJar {
 
 test {
     useJUnitPlatform()
+}
+
+clean {
+    doLast {
+        file("${projectDir}/out").deleteDir()
+    }
 }

@@ -14,7 +14,7 @@ import resnyx.model.Message;
 import java.util.List;
 
 @SpringBootTest
-@Sql(scripts = {"classpath:0tables.sql", "classpath:data.sql"})
+@Sql(scripts = {"classpath:schema.sql", "classpath:data.sql"})
 public class FirstAutoServTest {
 
     @Autowired
