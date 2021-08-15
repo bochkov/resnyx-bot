@@ -13,7 +13,8 @@ import org.jsoup.select.Elements;
 @Data
 public final class Anek implements Serializable {
 
-    private static final String ANEK_URL = "https://baneks.ru/random";
+    private static final String ANEK_RANDOM_URL = "https://baneks.ru/random";
+    private static final String ANEK_URL = "https://baneks.ru/%d";
 
     private final String id;
     private final String text;
@@ -23,8 +24,8 @@ public final class Anek implements Serializable {
     }
 
     @SneakyThrows
-    public static Anek random() {
-        Document doc = Jsoup.parse(new URL(ANEK_URL), 5000);
+    private static Anek get(String url) {
+        Document doc = Jsoup.parse(new URL(url), 5000);
         String id = doc.getElementsByTag("main").get(0).attr("data-id");
         String text = "";
         for (Element view : doc.getElementsByClass("anek-view")) {
@@ -34,5 +35,15 @@ public final class Anek implements Serializable {
             }
         }
         return new Anek(id, text);
+    }
+
+    @SneakyThrows
+    public static Anek random() {
+        return get(ANEK_RANDOM_URL);
+    }
+
+    @SneakyThrows
+    public static Anek byId(Integer id) {
+        return get(String.format(ANEK_URL, id));
     }
 }
