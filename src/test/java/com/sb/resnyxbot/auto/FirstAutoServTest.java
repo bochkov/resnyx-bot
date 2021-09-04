@@ -43,7 +43,7 @@ public class FirstAutoServTest {
         Assertions.assertTrue(method instanceof SendMessage);
         SendMessage send = (SendMessage) method;
         Assertions.assertEquals(
-                "Москва = 77, 97, 99, 177, 197, 199, 777",
+                "Москва = 77, 97, 99, 177, 197, 199, 777, 797",
                 send.getText()
         );
     }
