@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import com.sb.resnyxbot.ChooseScope;
 import com.sb.resnyxbot.ResnyxService;
 import com.sb.resnyxbot.prop.Prop;
 import com.sb.resnyxbot.prop.PropRepo;
@@ -19,6 +20,7 @@ import resnyx.model.Message;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@ChooseScope("анек")
 public final class Anekdot implements ResnyxService {
 
     private final PropRepo propRepo;

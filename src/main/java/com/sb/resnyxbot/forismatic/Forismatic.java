@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
+import com.sb.resnyxbot.ChooseScope;
 import com.sb.resnyxbot.ResnyxService;
 import com.sb.resnyxbot.prop.PropRepo;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +21,9 @@ import resnyx.methods.message.SendMessage;
 import resnyx.model.Message;
 
 @Slf4j
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
+@ChooseScope("цитат")
 public class Forismatic implements ResnyxService {
 
     private final PropRepo propRepo;
@@ -55,7 +57,7 @@ public class Forismatic implements ResnyxService {
 
     public String cite() {
         RestTemplate rest = new RestTemplate();
-        UriComponents uris = UriComponentsBuilder.fromHttpUrl("http://api.forismatic.com/api/1.0/")
+        UriComponents uris = UriComponentsBuilder.fromHttpUrl("https://api.forismatic.com/api/1.0/")
                 .queryParam("method", "getQuote")
                 .queryParam("format", "text")
                 .queryParam("lang", "ru")

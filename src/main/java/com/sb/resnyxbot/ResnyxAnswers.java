@@ -2,46 +2,47 @@ package com.sb.resnyxbot;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.function.BiPredicate;
 
-import com.sb.resnyxbot.anekdot.Anekdot;
-import com.sb.resnyxbot.auto.AutoServ;
-import com.sb.resnyxbot.forismatic.Forismatic;
-import com.sb.resnyxbot.qr.QrService;
-import com.sb.resnyxbot.rutor.Rutor;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.reflections.Reflections;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import resnyx.TgMethod;
 import resnyx.methods.message.SendMessage;
 import resnyx.model.Message;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public final class ResnyxAnswers {
 
-    private final Forismatic forismatic;
-    private final Rutor rutor;
-    private final QrService qrService;
-    private final AutoServ autoServ;
-    private final Anekdot anekdot;
+    private final ApplicationContext context;
+    private final Reflections scan;
+    private final BiPredicate<String, String> predicate = (source, val) ->
+            source.toLowerCase().contains(val.toLowerCase());
 
     public List<TgMethod<Message>> choose(final String token, final Message msg) {
-        final Long chatId = msg.getChat().getId();
-        final String text = msg.getText().toLowerCase();
-        if (text.contains("цитат")) {
-            return forismatic.answer(token, msg);
-        } else if (text.contains("qr")) {
-            return qrService.answer(token, msg);
-        } else if (text.contains("авто")) {
-            return autoServ.answer(token, msg);
-        } else if (text.contains("rutor")) {
-            return rutor.answer(token, msg);
-        } else if (text.contains("анек")) {
-            return anekdot.answer(token, msg);
-        } else {
-            String txt = String.format("Your chat_id = %s", chatId);
-            return Collections.singletonList(
-                    new SendMessage(token, chatId, txt)
-            );
+        Set<Class<? extends ResnyxService>> allIfcs = scan.getSubTypesOf(ResnyxService.class);
+        for (Class<?> clz : allIfcs) {
+            if (clz.isAnnotationPresent(ChooseScope.class)) {
+                ChooseScope scope = clz.getAnnotation(ChooseScope.class);
+                for (String str : scope.value()) {
+                    if (predicate.test(msg.getText(), str)) {
+                        Class<?> beanClass = scope.clz() == void.class ? clz : scope.clz();
+                        ResnyxService service = (ResnyxService) context.getBean(beanClass);
+                        LOG.debug("choosed service = {}", context.getBean(beanClass));
+                        return service.answer(token, msg);
+                    }
+                }
+            }
         }
+        Long chatId = msg.getChat().getId();
+        String txt = String.format("Your chat_id = %s", chatId);
+        return Collections.singletonList(
+                new SendMessage(token, chatId, txt)
+        );
     }
 }

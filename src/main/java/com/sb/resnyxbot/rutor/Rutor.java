@@ -1,6 +1,14 @@
 package com.sb.resnyxbot.rutor;
 
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import com.sb.resnyxbot.ChooseScope;
 import com.sb.resnyxbot.ResnyxService;
+import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -9,13 +17,9 @@ import resnyx.TgMethod;
 import resnyx.methods.message.SendMessage;
 import resnyx.model.Message;
 
-import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
+@Slf4j
 @Service
+@ChooseScope("rutor")
 public class Rutor implements ResnyxService {
 
     private static final Pattern URL = Pattern.compile("https?://.*");
@@ -25,6 +29,10 @@ public class Rutor implements ResnyxService {
         if (m.find()) {
             Document doc = Jsoup.connect(m.group()).get();
             Element downloadSection = doc.getElementById("download");
+            if (downloadSection == null) {
+                LOG.warn("download section is empty");
+                return Torrent.EMPTY;
+            }
             String magnetUrl = "";
             String downloadUrl = "";
             for (Element aElem : downloadSection.getElementsByTag("a")) {

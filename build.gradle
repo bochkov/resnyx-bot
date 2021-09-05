@@ -30,6 +30,7 @@ dependencies {
     implementation 'com.google.zxing:javase:3.4.1'
     implementation 'org.jsoup:jsoup:1.14.2'
     implementation 'com.jcabi:jcabi-xml:0.22.2'
+    implementation 'org.reflections:reflections:0.9.12'
 
     compileOnly 'org.projectlombok:lombok:1.18.20'
     testCompileOnly 'org.projectlombok:lombok:1.18.20'
