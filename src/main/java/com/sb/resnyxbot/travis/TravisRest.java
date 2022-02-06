@@ -1,36 +1,24 @@
 package com.sb.resnyxbot.travis;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
-
 @RestController
 @RequestMapping("/travis")
+@RequiredArgsConstructor
 public class TravisRest {
 
-    private static final ObjectMapper MAPPER = new ObjectMapper()
-            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    private final Travis travis;
-
-    @Autowired
-    public TravisRest(Travis travis) {
-        this.travis = travis;
-    }
+    private final TravisResnyx travisResnyx;
 
     @PostMapping
-    public void travisNotif(String payload) throws IOException {
-        travis.send(
-                MAPPER.readValue(payload, TravisUpd.class)
-        );
+    public void travisNotif(TravisUpd payload) {
+        travisResnyx.push(payload.msg());
     }
 
-    @PostMapping("/force")
+    @PostMapping("/push")
     public void travisForce() {
-        travis.test();
+        travisResnyx.push();
     }
 }

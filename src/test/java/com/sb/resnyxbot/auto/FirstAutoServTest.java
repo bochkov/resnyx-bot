@@ -15,10 +15,10 @@ import java.util.List;
 
 @SpringBootTest
 @Sql(scripts = {"classpath:schema.sql", "classpath:data.sql"})
-public class FirstAutoServTest {
+class FirstAutoServTest {
 
     @Autowired
-    private AutoServ autoServ;
+    private AutoService autoServ;
 
     @Test
     @DisplayName("Test fetch data from table")

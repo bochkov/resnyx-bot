@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.sb.resnyxbot.ChooseScope;
-import com.sb.resnyxbot.ResnyxService;
+import com.sb.resnyxbot.common.ChooseScope;
+import com.sb.resnyxbot.common.ResnyxService;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

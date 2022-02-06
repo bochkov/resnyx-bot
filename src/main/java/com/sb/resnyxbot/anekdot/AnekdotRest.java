@@ -1,22 +1,27 @@
 package com.sb.resnyxbot.anekdot;
 
-import java.io.Serializable;
-
+import com.sb.resnyxbot.common.PushService;
+import com.sb.resnyxbot.common.ResnyxService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/anekdot")
 public class AnekdotRest {
 
-    @PostMapping("/push")
-    public Serializable rest(@RequestParam(required = false) Integer id) {
+    private final AnekdotService anekdotService;
+    private final PushService anekdotResnyx;
+
+    @GetMapping
+    public Anek rest(@RequestParam(required = false) Integer id) {
         return id == null ?
-                Anek.random() :
-                Anek.byId(id);
+                anekdotService.random() :
+                anekdotService.byId(id);
+    }
+
+    @PostMapping("/push")
+    public void pushAnek() {
+        anekdotResnyx.push();
     }
 }

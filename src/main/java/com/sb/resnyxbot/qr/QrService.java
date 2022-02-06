@@ -1,7 +1,7 @@
 package com.sb.resnyxbot.qr;
 
 import com.google.zxing.WriterException;
-import com.sb.resnyxbot.ResnyxService;
+import com.sb.resnyxbot.common.ResnyxService;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

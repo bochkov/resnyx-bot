@@ -11,9 +11,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/auto")
 @RequiredArgsConstructor
-public final class AutoApi {
+public final class AutoRest {
 
-    private final AutoServ autoServ;
+    private final AutoService autoServ;
 
     @GetMapping("/forCode")
     public Region forCode(@RequestParam String code) {

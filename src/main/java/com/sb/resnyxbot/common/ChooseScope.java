@@ -1,4 +1,4 @@
-package com.sb.resnyxbot;
+package com.sb.resnyxbot.common;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

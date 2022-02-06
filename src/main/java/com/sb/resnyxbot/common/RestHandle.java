@@ -1,4 +1,4 @@
-package com.sb.resnyxbot;
+package com.sb.resnyxbot.common;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;

@@ -1,4 +1,4 @@
-package com.sb.resnyxbot;
+package com.sb.resnyxbot.common;
 
 import java.util.Collections;
 import java.util.List;

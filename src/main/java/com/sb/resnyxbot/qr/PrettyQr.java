@@ -10,7 +10,7 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 import com.google.zxing.WriterException;
-import com.sb.resnyxbot.ChooseScope;
+import com.sb.resnyxbot.common.ChooseScope;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import resnyx.TgMethod;

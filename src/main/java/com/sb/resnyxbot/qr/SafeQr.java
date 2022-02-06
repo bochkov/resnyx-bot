@@ -1,15 +1,15 @@
 package com.sb.resnyxbot.qr;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.List;
+
 import com.google.zxing.WriterException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import resnyx.TgMethod;
 import resnyx.model.Message;
-
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor

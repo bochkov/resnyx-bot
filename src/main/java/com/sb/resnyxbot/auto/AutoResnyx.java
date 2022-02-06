@@ -7,7 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import com.sb.resnyxbot.ChooseScope;
+import com.sb.resnyxbot.common.ChooseScope;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ import resnyx.model.Message;
 @Service
 @RequiredArgsConstructor
 @ChooseScope(value = {"avto", "авто"})
-public final class FirstAutoServ implements AutoServ {
+public final class AutoResnyx implements AutoService {
 
     private static final Pattern DIGITS = Pattern.compile("\\d+");
 
