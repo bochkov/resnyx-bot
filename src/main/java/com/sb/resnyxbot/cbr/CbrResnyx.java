@@ -25,7 +25,7 @@ public final class CbrResnyx extends PushResnyx {
     public List<TgMethod<Message>> answer(String token, Message msg) {
         return Collections.singletonList(
                 new SendMessage(
-                        token, msg.getChat().getId(), cbrService.latestRates().toString()
+                        token, msg.getChat().getId(), pushText()
                 )
         );
     }

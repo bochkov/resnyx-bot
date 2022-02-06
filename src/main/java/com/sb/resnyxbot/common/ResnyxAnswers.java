@@ -33,7 +33,7 @@ public final class ResnyxAnswers {
                     if (predicate.test(msg.getText(), str)) {
                         Class<?> beanClass = scope.clz() == void.class ? clz : scope.clz();
                         ResnyxService service = (ResnyxService) context.getBean(beanClass);
-                        LOG.debug("choosed service = {}", context.getBean(beanClass));
+                        LOG.info("choosed service = {}", context.getBean(beanClass));
                         return service.answer(token, msg);
                     }
                 }
