@@ -5,9 +5,6 @@ import lombok.Data;
 @Data
 public final class CalcRange {
 
-    public static final String EUR = "€";
-    public static final String USD = "$";
-
     private final String code;
     private final CurrRange.RangeRecord value;
     private final Double delta;
@@ -19,7 +16,8 @@ public final class CalcRange {
     }
 
     public String asString() {
-        return String.format("%S = %.3f ₽ [ %.3f ]",
+        return String.format("%d %S = %.3f ₽ [ %.3f ]",
+                value.getNominal(),
                 code,
                 value.getValue(),
                 delta

@@ -1,6 +1,6 @@
 package com.sb.resnyxbot.cbr;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,11 +23,13 @@ public final class CbrResnyx extends PushResnyx {
 
     @Override
     public List<TgMethod<Message>> answer(String token, Message msg) {
-        return Collections.singletonList(
-                new SendMessage(
-                        token, msg.getChat().getId(), pushText()
-                )
-        );
+        // TODO get code from msg
+        List<CalcRange> calcRanges = cbrService.latestRange();
+        List<TgMethod<Message>> methods = new ArrayList<>();
+        for (CalcRange cr : calcRanges) {
+            methods.add(new SendMessage(token, msg.getChat().getId(), cr.asString()));
+        }
+        return methods;
     }
 
     @Override

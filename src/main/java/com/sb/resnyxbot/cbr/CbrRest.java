@@ -1,6 +1,5 @@
 package com.sb.resnyxbot.cbr;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
@@ -36,37 +35,21 @@ public final class CbrRest {
 
     @GetMapping("/month/usd")
     public CurrRange monthUsd() {
-        return cbrService.rangeOf(
-                CbrService.USD,
-                LocalDate.now().minusMonths(1),
-                LocalDate.now()
-        );
+        return cbrService.months(Currencies.USD.getCbrCode(), 1);
     }
 
     @GetMapping("/month/eur")
     public CurrRange monthEur() {
-        return cbrService.rangeOf(
-                CbrService.EUR,
-                LocalDate.now().minusMonths(1),
-                LocalDate.now()
-        );
+        return cbrService.months(Currencies.EUR.getCbrCode(), 1);
     }
 
     @GetMapping("/year/usd")
     public CurrRange yearUsd() {
-        return cbrService.rangeOf(
-                CbrService.USD,
-                LocalDate.now().minusYears(1),
-                LocalDate.now()
-        );
+        return cbrService.years(Currencies.USD.getCbrCode(), 1);
     }
 
     @GetMapping("/year/eur")
     public CurrRange yearEur() {
-        return cbrService.rangeOf(
-                CbrService.EUR,
-                LocalDate.now().minusYears(1),
-                LocalDate.now()
-        );
+        return cbrService.years(Currencies.EUR.getCbrCode(), 1);
     }
 }

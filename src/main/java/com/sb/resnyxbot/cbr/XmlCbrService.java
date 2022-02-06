@@ -2,7 +2,7 @@ package com.sb.resnyxbot.cbr;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -77,17 +77,42 @@ public final class XmlCbrService implements CbrService {
     }
 
     @Override
-    public List<CalcRange> latestRange() {
-        CurrRange usd = rangeOf(CbrService.USD, LocalDate.now().minusMonths(1), LocalDate.now());
-        List<CurrRange.RangeRecord> rec0 = usd.getRecords();
-        rec0.sort(Comparator.comparing(CurrRange.RangeRecord::getDate).reversed());
-        //
-        CurrRange eur = rangeOf(CbrService.EUR, LocalDate.now().minusMonths(1), LocalDate.now());
-        List<CurrRange.RangeRecord> rec1 = eur.getRecords();
-        rec1.sort(Comparator.comparing(CurrRange.RangeRecord::getDate).reversed());
-        return Arrays.asList(
-                new CalcRange(CalcRange.USD, rec0.get(0), rec0.get(1)),
-                new CalcRange(CalcRange.EUR, rec1.get(0), rec1.get(1))
+    public CurrRange days(String code, int days) {
+        return rangeOf(
+                code,
+                LocalDate.now().minusDays(days),
+                LocalDate.now()
         );
+    }
+
+    @Override
+    public CurrRange months(String code, int months) {
+        return rangeOf(
+                code,
+                LocalDate.now().minusMonths(months),
+                LocalDate.now()
+        );
+    }
+
+    @Override
+    public CurrRange years(String code, int years) {
+        return rangeOf(
+                code,
+                LocalDate.now().minusYears(years),
+                LocalDate.now()
+        );
+    }
+
+    @Override
+    public List<CalcRange> latestRange() {
+        Currencies[] currs = {Currencies.USD, Currencies.EUR};
+        List<CalcRange> ranges = new ArrayList<>();
+        for (Currencies curr : currs) {
+            CurrRange range = rangeOf(curr.getCbrCode(), LocalDate.now().minusMonths(1), LocalDate.now());
+            List<CurrRange.RangeRecord> recs = range.getRecords();
+            recs.sort(Comparator.comparing(CurrRange.RangeRecord::getDate).reversed());
+            ranges.add(new CalcRange(curr.getSign(), recs.get(0), recs.get(1)));
+        }
+        return ranges;
     }
 }
