@@ -10,7 +10,6 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import org.reflections.Reflections;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -23,11 +22,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableMongoRepositories("com.sb.resnyxbot.prop")
 @EnableJpaRepositories("com.sb.resnyxbot.auto")
 public class ResnyxBotApplication {
-
-    @Bean
-    public Reflections scan() {
-        return new Reflections("com.sb.resnyxbot");
-    }
 
     @Bean
     public XmlMapper xmlMapper() {
