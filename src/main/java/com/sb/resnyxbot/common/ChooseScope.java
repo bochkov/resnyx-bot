@@ -11,6 +11,4 @@ public @interface ChooseScope {
 
     String[] value();
 
-    Class<?> clz() default void.class;
-
 }

@@ -14,7 +14,7 @@ import resnyx.model.Message;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class TravisResnyx extends PushResnyx {
+public final class TravisResnyx extends PushResnyx {
 
     @Override
     public List<TgMethod<Message>> answer(String token, Message msg) {

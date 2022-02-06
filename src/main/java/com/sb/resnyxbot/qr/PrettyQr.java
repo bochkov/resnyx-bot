@@ -10,7 +10,6 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 import com.google.zxing.WriterException;
-import com.sb.resnyxbot.common.ChooseScope;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import resnyx.TgMethod;
@@ -18,7 +17,6 @@ import resnyx.model.Message;
 
 @Slf4j
 @RequiredArgsConstructor
-@ChooseScope(value = "qr", clz = QrService.class)
 public final class PrettyQr implements QrService {
 
     public static final String DEFAULT_COLOR = "#000000";

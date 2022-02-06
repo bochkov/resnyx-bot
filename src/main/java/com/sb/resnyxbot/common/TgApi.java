@@ -11,7 +11,7 @@ import resnyx.TgMethod;
 
 @Slf4j
 @RestController
-public class RestApi {
+public final class TgApi {
 
     @PostMapping("/tg")
     public <T> Answer<T> message(@RequestBody TgMethod<T> method) throws IOException {

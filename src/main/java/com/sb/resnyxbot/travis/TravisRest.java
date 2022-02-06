@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/travis")
 @RequiredArgsConstructor
-public class TravisRest {
+public final class TravisRest {
 
     private final TravisResnyx travisResnyx;
 

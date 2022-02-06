@@ -20,7 +20,7 @@ import resnyx.model.Message;
 @Slf4j
 @Service
 @ChooseScope("rutor")
-public class Rutor implements ResnyxService {
+public final class Rutor implements ResnyxService {
 
     private static final Pattern URL = Pattern.compile("https?://.*");
 

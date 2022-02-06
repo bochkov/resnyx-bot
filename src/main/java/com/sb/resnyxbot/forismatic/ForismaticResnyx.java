@@ -16,7 +16,7 @@ import resnyx.model.Message;
 @Service
 @RequiredArgsConstructor
 @ChooseScope("цитат")
-public class ForismaticResnyx extends PushResnyx {
+public final class ForismaticResnyx extends PushResnyx {
 
     private final CiteService citeService;
 

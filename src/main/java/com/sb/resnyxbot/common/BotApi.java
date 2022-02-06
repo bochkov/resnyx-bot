@@ -14,7 +14,7 @@ import resnyx.model.Update;
 @RestController
 @RequestMapping("/bot")
 @RequiredArgsConstructor
-public class RestHandle {
+public final class BotApi {
 
     private static final ExecutorService THREAD_POOL = Executors.newFixedThreadPool(5);
 

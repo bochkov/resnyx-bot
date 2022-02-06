@@ -86,8 +86,8 @@ public final class XmlCbrService implements CbrService {
         List<CurrRange.RangeRecord> rec1 = eur.getRecords();
         rec1.sort(Comparator.comparing(CurrRange.RangeRecord::getDate).reversed());
         return Arrays.asList(
-                new CalcRange("usd", rec0.get(0), rec0.get(1)),
-                new CalcRange("eur", rec1.get(0), rec1.get(1))
+                new CalcRange(CalcRange.USD, rec0.get(0), rec0.get(1)),
+                new CalcRange(CalcRange.EUR, rec1.get(0), rec1.get(1))
         );
     }
 }

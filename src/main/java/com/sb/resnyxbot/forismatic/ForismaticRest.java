@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/cite")
-public class ForismaticRest {
+public final class ForismaticRest {
 
     private final CiteService forismatic;
     private final PushService forismaticResnyx;
