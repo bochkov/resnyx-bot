@@ -27,6 +27,11 @@ public final class TravisResnyx extends PushResnyx {
     }
 
     @Override
+    protected String chatPropName() {
+        return "travis.chat";
+    }
+
+    @Override
     protected void configure(SendMessage answer) {
         answer.setDisablePreview(true);
         answer.setParseMode("Markdown");

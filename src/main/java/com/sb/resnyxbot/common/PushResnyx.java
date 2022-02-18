@@ -26,16 +26,20 @@ public abstract class PushResnyx implements PushService {
         push(msg);
     }
 
+    protected String chatPropName() {
+        return "chat.auto.send";
+    }
+
     @Override
     public void push(String msg) {
         propRepo
                 .findById("tg.token")
                 .ifPresentOrElse(
                         tok -> propRepo
-                                .findById("chat.auto.send")
+                                .findById(chatPropName())
                                 .ifPresentOrElse(
                                         prop -> push(prop, tok.getValue(), msg),
-                                        () -> LOG.info("chat.auto.send is empty. exit")
+                                        () -> LOG.info("{} is empty. exit", chatPropName())
                                 ),
                         () -> LOG.info("tg.token is empty. exit")
                 );
