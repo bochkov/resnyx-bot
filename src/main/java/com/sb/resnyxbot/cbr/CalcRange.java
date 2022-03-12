@@ -1,5 +1,7 @@
 package com.sb.resnyxbot.cbr;
 
+import java.time.LocalDate;
+
 import lombok.Data;
 
 @Data
@@ -13,6 +15,10 @@ public final class CalcRange {
         this.code = code;
         this.value = rec0;
         this.delta = rec0.getValue().subtract(rec1.getValue()).doubleValue();
+    }
+
+    public LocalDate date() {
+        return this.value.getDate();
     }
 
     public String asString() {

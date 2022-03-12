@@ -8,23 +8,20 @@ import java.util.List;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.sb.resnyxbot.common.Pair;
+import kong.unirest.HttpResponse;
+import kong.unirest.Unirest;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponents;
-import org.springframework.web.util.UriComponentsBuilder;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public final class XmlCbrService implements CbrService {
 
-    private static final String DAILY_URL = "https://www.cbr.ru/scripts/XML_daily.asp";
+    private static final String DAILY_URL = "https://cbr.ru/scripts/XML_daily.asp";
     private static final String DYNAMIC_URL = "https://cbr.ru/scripts/XML_dynamic.asp";
 
     private static final Pair<LocalDateTime, CurrRate> RATES = new Pair<>();
@@ -47,12 +44,11 @@ public final class XmlCbrService implements CbrService {
     public CurrRate latestRates() {
         if (needUpdate()) {
             LOG.info("get rates from cbr server");
-            RestTemplate rest = new RestTemplate();
-            UriComponents uris = UriComponentsBuilder.fromHttpUrl(DAILY_URL)
-                    .build();
-            ResponseEntity<String> response = rest.getForEntity(uris.toUriString(), String.class);
-            if (response.getStatusCode() != HttpStatus.OK)
-                throw new RestClientException("status = " + response.getStatusCode());
+            HttpResponse<String> response = Unirest.get(DAILY_URL)
+                    .asString();
+            if (!response.isSuccess()) {
+                throw new RestClientException("status = " + response.getStatus());
+            }
             CurrRate rates = xmlMapper.readValue(response.getBody(), CurrRate.class);
             RATES.replace(LocalDateTime.now(), rates);
         }
@@ -62,17 +58,14 @@ public final class XmlCbrService implements CbrService {
     @SneakyThrows
     @Override
     public CurrRange rangeOf(String code, LocalDate dFrom, LocalDate dTo) {
-        RestTemplate rest = new RestTemplate();
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        UriComponents uris = UriComponentsBuilder.fromHttpUrl(DYNAMIC_URL)
-                .queryParam("date_req1", dFrom.format(fmt))
-                .queryParam("date_req2", dTo.format(fmt))
-                .queryParam("VAL_NM_RQ", code)
-                .build();
-        LOG.info(uris.toUriString());
-        ResponseEntity<String> response = rest.getForEntity(uris.toUriString(), String.class);
-        if (response.getStatusCode() != HttpStatus.OK)
-            throw new RestClientException("status = " + response.getStatusCode());
+        HttpResponse<String> response = Unirest.get(DYNAMIC_URL)
+                .queryString("date_req1", dFrom.format(fmt))
+                .queryString("date_req2", dTo.format(fmt))
+                .queryString("VAL_NM_RQ", code)
+                .asString();
+        if (!response.isSuccess())
+            throw new RestClientException("status = " + response.getStatus());
         return xmlMapper.readValue(response.getBody(), CurrRange.class);
     }
 
@@ -81,7 +74,7 @@ public final class XmlCbrService implements CbrService {
         return rangeOf(
                 code,
                 LocalDate.now().minusDays(days),
-                LocalDate.now()
+                LocalDate.now().plusDays(1)
         );
     }
 
@@ -90,7 +83,7 @@ public final class XmlCbrService implements CbrService {
         return rangeOf(
                 code,
                 LocalDate.now().minusMonths(months),
-                LocalDate.now()
+                LocalDate.now().plusDays(1)
         );
     }
 
@@ -99,7 +92,7 @@ public final class XmlCbrService implements CbrService {
         return rangeOf(
                 code,
                 LocalDate.now().minusYears(years),
-                LocalDate.now()
+                LocalDate.now().plusDays(1)
         );
     }
 
@@ -108,7 +101,7 @@ public final class XmlCbrService implements CbrService {
         Currencies[] currs = {Currencies.USD, Currencies.EUR};
         List<CalcRange> ranges = new ArrayList<>();
         for (Currencies curr : currs) {
-            CurrRange range = rangeOf(curr.getCbrCode(), LocalDate.now().minusMonths(1), LocalDate.now());
+            CurrRange range = rangeOf(curr.getCbrCode(), LocalDate.now().minusDays(14), LocalDate.now().plusDays(1));
             List<CurrRange.RangeRecord> recs = range.getRecords();
             recs.sort(Comparator.comparing(CurrRange.RangeRecord::getDate).reversed());
             ranges.add(new CalcRange(curr.getSign(), recs.get(0), recs.get(1)));
