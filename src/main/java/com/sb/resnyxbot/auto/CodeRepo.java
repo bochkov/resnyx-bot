@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CodeRepo extends JpaRepository<Code, Integer> {
 
-    Code findByValue(String code);
+    Code findByVal(String code);
 
 }

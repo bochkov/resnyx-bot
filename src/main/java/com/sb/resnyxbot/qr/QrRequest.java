@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 @NoArgsConstructor
 public final class QrRequest implements Serializable {
 
-    public static final Pattern COLOR_PATTERN = Pattern.compile("#[A-Fa-f0-9]{6}");
+    public static final Pattern COLOR_PATTERN = Pattern.compile("#[A-Fa-f\\d]{6}");
 
     private String text;
     private Integer size;

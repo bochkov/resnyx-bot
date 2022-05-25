@@ -1,6 +1,7 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '2.6.4'
+    id 'org.springframework.boot' version '2.7.0'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 }
 
 apply plugin: 'java'
@@ -24,19 +25,19 @@ dependencies {
 
     implementation 'com.h2database:h2'
 
-    implementation 'resnyx:resnyx:4.6.5'
+    implementation 'resnyx:resnyx:4.6.6'
 
-    implementation 'com.google.zxing:core:3.4.1'
-    implementation 'com.google.zxing:javase:3.4.1'
+    implementation 'com.google.zxing:core:3.5.0'
+    implementation 'com.google.zxing:javase:3.5.0'
     implementation 'org.jsoup:jsoup:1.14.3'
-    implementation 'com.konghq:unirest-java:3.13.6'
-    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.13.2'
-    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.2'
+    implementation 'com.konghq:unirest-java:3.13.10'
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.13.3'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.3'
 
-    compileOnly 'org.projectlombok:lombok:1.18.22'
-    testCompileOnly 'org.projectlombok:lombok:1.18.22'
-    annotationProcessor 'org.projectlombok:lombok:1.18.22'
-    testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    testCompileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

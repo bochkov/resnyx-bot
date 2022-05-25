@@ -37,8 +37,8 @@ class XmlCbrServiceTest {
                 XmlCbrServiceTest.class.getResource("/XML_dynamic.xml"), CurrRange.class
         );
         Assertions.assertThat(
-                range.getRecords().size()
-        ).isEqualTo(8);
+                range.getRecords()
+        ).hasSize(8);
     }
 
     @Test

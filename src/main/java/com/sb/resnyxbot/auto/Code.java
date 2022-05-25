@@ -15,7 +15,7 @@ public final class Code {
 
     @Id
     private Integer id;
-    private String value;
+    private String val;
 
     @JsonIgnore
     @ManyToOne(targetEntity = Region.class)

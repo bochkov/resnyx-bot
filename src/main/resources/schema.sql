@@ -10,7 +10,7 @@ create table region
 create table code
 (
     id        int primary key auto_increment,
-    value     varchar(3),
+    val     varchar(3),
     region_id int,
     foreign key (region_id) references region (id)
 );

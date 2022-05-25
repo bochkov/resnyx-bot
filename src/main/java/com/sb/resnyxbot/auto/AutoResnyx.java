@@ -29,7 +29,7 @@ public final class AutoResnyx implements AutoService {
     @Override
     public Region findRegionByCode(String code) {
         LOG.info("searching by code = '{}'", code);
-        return codes.findByValue(code).getRegion();
+        return codes.findByVal(code).getRegion();
     }
 
     @Override
@@ -60,7 +60,7 @@ public final class AutoResnyx implements AutoService {
                     region.getName(),
                     region.getCodes()
                             .stream()
-                            .map(Code::getValue)
+                            .map(Code::getVal)
                             .collect(Collectors.joining(", "))
             );
             messages.add(new SendMessage(token, chatId, ans));
