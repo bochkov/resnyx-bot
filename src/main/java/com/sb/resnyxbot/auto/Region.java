@@ -1,9 +1,9 @@
 package com.sb.resnyxbot.auto;
 
-import lombok.Data;
-
-import javax.persistence.*;
 import java.util.List;
+
+import jakarta.persistence.*;
+import lombok.Data;
 
 @Data
 @Entity

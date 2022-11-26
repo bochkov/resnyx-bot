@@ -7,13 +7,11 @@ import java.util.Comparator;
 import java.util.List;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@Slf4j
 @SpringBootTest
 class XmlCbrServiceTest {
 
@@ -25,10 +23,8 @@ class XmlCbrServiceTest {
         CurrRate rates = xmlMapper.readValue(
                 XmlCbrServiceTest.class.getResource("/rates.xml"), CurrRate.class
         );
-        LOG.info("{}", rates.getCurrRecords().get(3));
-        Assertions.assertThat(
-                rates.getCurrRecords().get(0).getName()
-        ).isEqualTo("Австралийский доллар");
+        Assertions.assertThat(rates.getCurrRecords()).isNotEmpty();
+        Assertions.assertThat(rates.getCurrRecords().get(0).getName()).isEqualTo("Австралийский доллар");
     }
 
     @Test
@@ -44,7 +40,6 @@ class XmlCbrServiceTest {
     @Test
     void testUpdate() {
         LocalDateTime first = LocalDateTime.of(2022, 2, 5, 23, 59, 59);
-        LOG.info("{}", first);
         Assertions.assertThat(
                 first.isBefore(LocalDateTime.of(LocalDate.now(), LocalTime.MIDNIGHT))
         ).isTrue();
