@@ -31,10 +31,12 @@ public final class HelpService implements ResnyxService {
                 );
             }
         }
-        return text.size() > 1 ?
-                Collections.singletonList(
-                        new SendMessage(token, msg.getChat().getId(), String.join("\n", text))
-                ) :
-                Collections.emptyList();
+        if (text.size() > 1) {
+            SendMessage sm = new SendMessage(token, msg.getChat().getId(), String.join("\n", text));
+            sm.setDisablePreview(true);
+            return Collections.singletonList(sm);
+        } else {
+            return Collections.emptyList();
+        }
     }
 }
