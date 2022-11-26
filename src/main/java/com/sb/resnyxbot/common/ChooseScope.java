@@ -11,4 +11,6 @@ public @interface ChooseScope {
 
     String[] value();
 
+    String desc() default "";
+
 }

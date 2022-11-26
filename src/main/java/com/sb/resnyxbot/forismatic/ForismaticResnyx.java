@@ -15,7 +15,7 @@ import resnyx.model.Message;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@ChooseScope("цитат")
+@ChooseScope(value = "цитат", desc = "Случайная цитата от https://www.forismatic.com/")
 public final class ForismaticResnyx extends PushResnyx {
 
     private final CiteService citeService;

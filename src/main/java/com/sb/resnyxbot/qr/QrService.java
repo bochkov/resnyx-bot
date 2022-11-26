@@ -8,7 +8,7 @@ import com.google.zxing.WriterException;
 import com.sb.resnyxbot.common.ChooseScope;
 import com.sb.resnyxbot.common.ResnyxService;
 
-@ChooseScope(value = "qr")
+@ChooseScope(value = "qr", desc = "Создание QR-кода")
 public interface QrService extends ResnyxService {
 
     BufferedImage encode(String value, Integer size, Color color, byte[] logo) throws WriterException, IOException;

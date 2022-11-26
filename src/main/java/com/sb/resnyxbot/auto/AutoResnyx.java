@@ -18,7 +18,7 @@ import resnyx.model.Message;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@ChooseScope(value = {"avto", "авто"})
+@ChooseScope(value = {"avto", "авто"}, desc = "Автомобильные коды регионов РФ")
 public final class AutoResnyx implements AutoService {
 
     private static final Pattern DIGITS = Pattern.compile("\\d+");

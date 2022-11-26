@@ -15,7 +15,7 @@ import resnyx.model.Message;
 
 @Slf4j
 @Service
-@ChooseScope("курс")
+@ChooseScope(value = "курс", desc = "Официальный курс валют")
 @RequiredArgsConstructor
 public final class CbrResnyx extends PushResnyx {
 

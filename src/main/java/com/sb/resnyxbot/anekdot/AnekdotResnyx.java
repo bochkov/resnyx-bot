@@ -16,7 +16,7 @@ import resnyx.model.Message;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@ChooseScope("анек")
+@ChooseScope(value = "анек", desc = "Случайный анекдот от https://baneks.ru/")
 public final class AnekdotResnyx extends PushResnyx {
 
     private final AnekdotService anekdotService;
