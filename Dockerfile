@@ -1,5 +1,5 @@
 FROM eclipse-temurin:17-jre-alpine
-ENV TZ Europe/Berlin
+ENV TZ Europe/Amsterdam
 ENV LANG ru_RU.UTF-8
 ENV LANGUAGE ru_RU:en
 ENV LC_ALL ru_RU.UTF-8
